@@ -87,7 +87,7 @@ collection_defaults:  # For all collections
   max_ttl: 0  # seconds
 
 buckets:
-  app_data:
+  main:
     defaults:  # Per-bucket defaults across envs
       flush_enabled: true
       compression_mode: passive
@@ -111,7 +111,7 @@ buckets:
         eviction_policy: full_eviction
         compression_mode: active
     scopes:
-      user_scope:
+      _default:
         collections:
           users:
             defaults:  # Per-collection defaults across envs
@@ -122,14 +122,7 @@ buckets:
               prod:
                 max_ttl: 7200
           sessions: {}  # No settings; uses collection_defaults
-      transaction_scope:
-        collections:
-          transactions: {}  # No settings
-  logs_bucket:  # No settings; uses bucket_defaults
-    scopes:
-      _default:
-        collections:
-          _default: {}  # No settings; uses collection_defaults
+
 ```
 
 
