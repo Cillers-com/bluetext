@@ -87,7 +87,7 @@ The module exposes the following services:
 
 ```yaml
 modules:
-  - id: my-redpanda
+  - id: redpanda
     module: polytope/redpanda
     args:
       data-volume:
@@ -95,8 +95,4 @@ modules:
         scope: project
         id: redpanda-data
       log-level: debug
-
-templates:
-  - id: messaging-stack
-    run:
-      - my-redpanda
+```

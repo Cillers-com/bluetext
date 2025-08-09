@@ -4,7 +4,7 @@ This Blueprint specifies how to add and update a Redpanda module for providing a
 
 Parent module: `polytope/redpanda`. Read the bluetext documentation resource for this standard module to understand how to specify the `args` attributes.
 
-## Example of a Polytope Redpanda module
+## Example of a Polytope Redpanda Module
 
 ```yaml
   - id: redpanda

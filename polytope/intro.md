@@ -39,6 +39,7 @@ When you need to understand how a specific standard module functions, use the MC
 | `python!simple` | Runs a Python container with minimal configuration for simple applications |
 | `container` | Runs a Docker container with full configuration options - the foundational module |
 | `node` | Runs a Node.js container with full configuration options for JavaScript applications |
+| `couchbase` | Runs a Couchbase Server container |
 
 ### Templates
 - Templates specify full jobs
