@@ -25,14 +25,15 @@ Add the following attribute to the `postgres` module in `polytope.yml`
 
 When implementing phantom token handler access control, the Kong module requires specific environment variables and configuration updates.
 
-### Required Environment Variables
 
-Add the following environment variables to your Kong module:
+Add the following attributes to your Kong module:
 
 ```yaml
 env:
   - { name: KONG_NGINX_HTTP_LUA_SHARED_DICT, value: 'phantom-token 10m' }
   - { name: KONG_PLUGINS, value: 'bundled,oauth-proxy,phantom-token' }
+plugins:
+  - { name: phantom-token, package: kong-phantom-token, version: 2.0.0 }
 ```
 
 **Important:** If the `KONG_PLUGINS` environment variable already exists with a value, append the new plugins to the existing value as a comma-separated list. For example, if the current value is `bundled,rate-limiting`, it should become `bundled,rate-limiting,oauth-proxy,phantom-token`.
