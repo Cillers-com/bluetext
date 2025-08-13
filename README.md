@@ -29,9 +29,9 @@ The server provides access to the following documentation resources:
   - Available modules: `add-package-npm`, `add-package-python`, `boilerplate`
 - **`bluetext://blueprints`** - Introduction to Bluetext blueprints (`blueprints/intro.md`)
 - **`bluetext://blueprints/<blueprint-id>`** - Individual blueprint documentation (`blueprints/<blueprint-id>/intro.md`)
-  - Available blueprints: `couchbase`, `init`, `python-api`, `redpanda`, `redpanda-console`, `web-app`
+  - Available blueprints: `couchbase`, `curity-identity-provider`, `config-manager`, `kong-api-gateway`, `postgres`, `python-api`, `redpanda`, `redpanda-console`, `react-web-app`
 - **`bluetext://polytope/standard-modules/<module-id>`** - Built-in Polytope module documentation (`polytope/standard-modules/<module-id>.md`)
-  - Available modules: `container`, `node`, `python`, `python!simple`, `postgres`, `postgres!simple`, `redpanda`, `redpanda!console`, `redpanda!connect`
+  - Available modules: `container`, `curity`, `node`, `python`, `python!simple`, `postgres`, `postgres!simple`, `redpanda`, `redpanda!console`, `redpanda!connect`
 
 All resources are served with `text/markdown` MIME type and include comprehensive documentation about Polytope concepts, modules, and blueprints.
 

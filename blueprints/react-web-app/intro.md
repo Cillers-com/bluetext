@@ -1,6 +1,6 @@
 ## Documentation For The React Web App Blueprint
 
-This Blueprint specifies how to add and update a Polytope module for providing a React Web App
+This Blueprint specifies how to add and update a Polytope module for a React Web App.
 
 Parent module: `polytope/node`. Read the bluetext documentation resource for this standard module to understand how to specify the `args` attributes.
 
@@ -19,6 +19,7 @@ Parent module: `polytope/node`. Read the bluetext documentation resource for thi
       cmd: pt.param cmd
       env:
         - { name: PORT, value: pt.value web-app-port }
+        - { name: API_HOST, value: }
       restart:
         policy: always # always restart on failure
       services:
@@ -31,11 +32,9 @@ Parent module: `polytope/node`. Read the bluetext documentation resource for thi
         - { path: /app/node_modules/, source: { type: volume, id: node-modules }}
 ```
 
-## Example of code to add to the Polytope .values_and_secrets.defaults.sh file
+## Values And Secrets
 
-```bash
-pt values set web-app-port 3000
-```
+The following values should be defined: `web-app-port`. Do not hardcode these values in `polytope.yml`.
 
 ## Instructions For How To Add npm Packages
 
@@ -54,7 +53,7 @@ Fetch the documentation for the boilerplate module from the bluetext MCP server.
 
 Run the following command to generate the initial code for the React Web App module: 
 
-`pt run --non-interactive "boilerplate{source-path: https://github.com/Cillers-com/boilerplate-react-web-app, target-path: my-module-code-root-path}"`
+`pt run --non-interactive "boilerplate{source-path: https://github.com/bluetext-io/boilerplate-react-web-app, target-path: my-module-code-root-path}"`
 
 Where `my-module-code-root-path` should be replaced by the relative path to where you should place the module code root directory, `modules/web-app` by default. 
 
@@ -63,3 +62,6 @@ Check the generated boilerplate code and see if any changes need to be made to f
 
 ### 3. Add needed packages using the instructions provided above.
 
+## API Access
+
+If there is an API module that is part of the same template as this Web App module, you should by default access that API directly without proxying through the Web App backend. 

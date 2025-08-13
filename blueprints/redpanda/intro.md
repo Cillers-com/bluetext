@@ -22,31 +22,31 @@ Parent module: `polytope/redpanda`. Read the bluetext documentation resource for
 ### Python
 Use the kafka-python package. Version: 2.2.15. If you try to use an older version, you will fail.
 
-## Dependencies
-
-### Values And Secrets
+## Values And Secrets
 
 The following values should be defined: `redpanda-host` and `redpanda-port`. Do not hardcode these values in `polytope.yml`.
 
+## Dependencies
+
 ### Init Module
 
-If you want to add or configure a topic, read the blueprint documentation resource for the `init` module. 
+If you want to add or configure a topic, read the blueprint documentation resource for the `config-manager` module.
 
-Make sure that the `init` module is added and runs as part of the same stack as the Redpanda module. If you try to add the `init` module without first reading its blueprint, you will fail.
+Make sure that the `config-manager` module is added and runs as part of the same stack as the Redpanda module. If you try to add the `config-manager` module without first reading its blueprint, you will fail.
 
-If you try to add or configure a topic without first reading the `init` blueprint, you will fail.
+If you try to add or configure a topic without first reading the `config-manager` blueprint, you will fail.
 
-The `REDPANDA_HOST` and `REDPANDA_PORT` values need to be added to the `init` modules `env` `args`. E.g.
+The `REDPANDA_HOST` and `REDPANDA_PORT` values need to be added to the `config-manager` modules `env` `args`. E.g.
 ```yaml
         - { name: REDPANDA_HOST, value: pt.value redpanda-host }
         - { name: REDPANDA_PORT, value: pt.value redpanda-port }
 ```
 
-The `init` id for Redpanda is 'redpanda'. Make sure it is included in the `INIT_SERVICES` `env` `args`.
+The `config-manager` id for Redpanda is 'redpanda'. Make sure it is included in the `SERVICES` `env` `args`.
 
 #### Configuration File
 
-Topics should be configured with environment-specific settings in the `./conf/init/redpanda.yaml` file.
+Topics should be configured with environment-specific settings in the `./modules/config-manager/redpanda.yaml` file.
 
 Configuration Specification:
 - `defaults`: Global settings applied to all topics

@@ -43,10 +43,18 @@ Check if the boilerplate module is added to the polytope.yml file. If not, add i
           TEMP_DIR="/tmp/boilerplate-$$"
           git clone --depth 1 "$SOURCE_PATH" "$TEMP_DIR"
           
-          # Copy contents (excluding .git directory)
+          # Copy all contents first
           echo "Copying boilerplate files to $TARGET_PATH..."
           cp -r "$TEMP_DIR"/* "$TARGET_PATH/" 2>/dev/null || true
           cp -r "$TEMP_DIR"/.[!.]* "$TARGET_PATH/" 2>/dev/null || true
+          
+          # Remove .git directory and all git-related files
+          echo "Removing .git directory and git-related files..."
+          rm -rf "$TARGET_PATH"/.git
+          rm -f "$TARGET_PATH"/.gitignore
+          rm -f "$TARGET_PATH"/.gitattributes
+          rm -f "$TARGET_PATH"/.gitmodules
+          rm -f "$TARGET_PATH"/.gitkeep
           
           # Remove README and LICENSE files from root directory if they exist
           echo "Removing README and LICENSE files from root directory..."
@@ -82,8 +90,8 @@ pt run --non-interactive "boilerplate{source-path: <git-repository-url>, target-
 
 | Module Type | Repository | Command |
 |-------------|------------|---------|
-| React app   | https://github.com/Cillers-com/boilerplate-react-web-app | `pt run --non-interactive "boilerplate{source-path: https://github.com/Cillers-com/boilerplate-react-web-app, target-path: modules/web-app}"` |
-| Python API  | https://github.com/Cillers-com/boilerplate-python-api | `pt run --non-interactive "boilerplate{source-path: https://github.com/Cillers-com/boilerplate-python-api, target-path: modules/api}"` |
+| React app   | https://github.com/bluetext-io/boilerplate-react-web-app | `pt run --non-interactive "boilerplate{source-path: https://github.com/bluetext-io/boilerplate-react-web-app, target-path: modules/web-app}"` |
+| Python API  | https://github.com/bluetext-io/boilerplate-python-api | `pt run --non-interactive "boilerplate{source-path: https://github.com/bluetext-io/boilerplate-python-api, target-path: modules/api}"` |
 
 ## Parameters
 
@@ -95,8 +103,9 @@ pt run --non-interactive "boilerplate{source-path: <git-repository-url>, target-
 The boilerplate module:
 1. Downloads the specified Git repository using `git clone --depth 1`
 2. Copies all files (including hidden files) to the target path
-3. Excludes the `.git` directory from the copy
-4. Cleans up temporary files
+3. Explicitly removes the `.git` directory and all git-related files (`.gitignore`, `.gitattributes`, `.gitmodules`, `.gitkeep`)
+4. Removes README and LICENSE files from the root directory
+5. Cleans up temporary files
 
 ## Prerequisites
 

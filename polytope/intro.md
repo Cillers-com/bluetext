@@ -346,9 +346,10 @@ In the polytope.yml file, all values that may change between deployment environm
 ## Correct type for args
 Make sure that modules get the correct type of parameters. When a module expects an int but gets a str, it will fail. Error example: Must be an integer (got "8079"). Polytope values and secrets are always of type str.
 
-
 ## Hostnames
-The hostnames that web apps need, must be based on Polytope values, so they can be dynamically set to different values in deployment different environments.
+Hostnames must be Polytope values because they can vary depending on deployment environment.
+
+If a module A's hostname is `localhost`, a module running in Polytope 
 
 The Polytope service hostnames that are accessible internally within a template are not available to a web browser or any other software running outside of Polytope.
 
@@ -823,9 +824,12 @@ pt secrets set db-password mypassword
 pt values set --file config.yaml
 ```
 
+Combining multiple existing values into one string should be done in the `polytope.yml` file. E.g. if you need to provide a connection string that consists of both a host and a port, you shoul have two separate `values` for host and port and combine those using interpolation in the `polytope.yml` file. 
+
+
 ## Default Values Setup
 
-Create `.values_and_secrets.defaults.sh` with default values for easy project setup:
+Create `values_and_secrets.defaults.sh` with default values for easy project setup:
 
 ```bash
 #!/bin/bash
@@ -843,7 +847,7 @@ pt secrets set api-key your-api-key-here
 
 Add to `.gitignore`:
 ```
-.values_and_secrets.sh
+values_and_secrets.sh
 ```
 
-This allows users to create `.values_and_secrets.sh` with real values locally without committing them.
+This allows users to create `values_and_secrets.sh` with real values locally without committing them.

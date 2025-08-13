@@ -25,34 +25,26 @@ modules:
         - { name: PORT, value: pt.value api-port }
 ```
 
-## Example of code to add to the Polytope .values_and_secrets.defaults.sh file
-```bash
-pt values set api-port 4000
-pt values set api-host-internal api
-pt values set api-host-external localhost
-```
+## Values And Secrets
 
-## Instructions For How To Add Python Packages
+The following values should be defined: `api-host`, `api-port`, where:
+* `api-host` is the hostname.
 
-Fetch the documentation resource for the add-package-python module from the bluetext MCP server. Run the add-package-python module in accordance with this documenation.
+Do not hardcode these values in `polytope.yml`.
 
-## Adding The Module
 
-Here are the steps you should take to add this module. 
+## Generate Module Code
 
-### 1. Start by running the React Web App boilerplate
-Fetch the documentation for the boilerplate module from the bluetext MCP server. 
+The Python API module mounts a directory with the code for the Python API. If you just add the api module to `polytope.yml` without generating the code for the api, you will fail. 
 
-Run the following command to generate the initial code for the Python API module: 
+### Initial Generation
+If you don't use the `boilerplate` code generation module to generate the api module code, you will fail. 
 
-`pt run --non-interactive "boilerplate{source-path: https://github.com/Cillers-com/boilerplate-python-api, target-path: my-module-code-root-path}"`
+When running the `boilerplate` module, specify 'https://github.com/bluetext-io/boilerplate-python-api' as the `source-path` and 'modules/api' as the `target-path`.
 
-Where `my-module-code-root-path` should be replaced by the relative path to where you should place the module code root directory, `modules/api` by default. 
+### Generation of Modifications
+If you need to add python packages using the `add-package-python` module. If you try to add python packages in any other way, you will fail.
 
-### 2. Make any necessary modifications
-Check the generated boilerplate code and see if any changes need to be made to fulfill the user's request. 
-
-### 3. Add needed packages using the instructions provided above.
-
+If you modify the `bin` scripts, you will fail. 
 
 

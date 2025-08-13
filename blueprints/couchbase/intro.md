@@ -37,18 +37,18 @@ Document type: this is determined by which collection the document is stored in.
 
 Documents are stored in collections. Ensure that you are storing each document in the correct collection. 
 
-## Dependencies
-
-### Values And Secrets
+## Values And Secrets
 
 The following values should be defined: `couchbase-host` and `couchbase-tls`. The following secrets should be defined: `couchbase-username` and `couchbase-password`.  Do not hardcode these values in `polytope.yml`.
 
+## Dependencies
+
 ### Init Module
-Read the blueprint documentation resource for the `init` module. The `init` module must run as part of the same stack as the `couchbase` module to ensure that the Couchbase cluster is initialized. Also, use the `init` module for adding and updating buckets, scopes and collections.
+Read the blueprint documentation resource for the `config-manager` module. The `config-manager` module must run as part of the same stack as the `couchbase` module to ensure that the Couchbase cluster is initialized. Also, use the `config-manager` module for adding and updating buckets, scopes and collections.
 
-If you try to add or configure the `init` module without first reading its blueprint, you will fail.
+If you try to add or configure the `config-manager` module without first reading its blueprint, you will fail.
 
-The `COUCHBASE_HOST`, `COUCHBASE_TLS`, `COUCHBASE_USERNAME`, `COUCHBASE_PASSWORD` values/secrets need to be added to the `init` modules `env` `args`. E.g.
+The `COUCHBASE_HOST`, `COUCHBASE_TLS`, `COUCHBASE_USERNAME`, `COUCHBASE_PASSWORD` values/secrets need to be added to the `config-manager` modules `env` `args`. E.g.
 ```yaml
         - { name: COUCHBASE_HOST, value: pt.value couchbase-host }
         - { name: COUCHBASE_TLS, value: pt.value couchbase-tls }
@@ -56,11 +56,11 @@ The `COUCHBASE_HOST`, `COUCHBASE_TLS`, `COUCHBASE_USERNAME`, `COUCHBASE_PASSWORD
         - { name: COUCHBASE_PASSWORD, value: pt.secret couchbase-password }
 ```
 
-The `init` id for Couchbase is 'couchbase'. Make sure it is included in the `INIT_SERVICES` `env` `args`.
+The `config-manager` id for Couchbase is 'couchbase'. Make sure it is included in the `SERVICES` `env` `args`.
 
 #### Configuration File
 
-Buckets, Scopes and Collections should be configured with environment-specific settings in the `./conf/init/couchbase.yaml` file.
+Buckets, Scopes and Collections should be configured with environment-specific settings in the `./modules/config-manager/couchbase.yaml` file.
 
 Configuration Specification:
 - `bucket_defaults`: Global settings applied to all buckets
@@ -124,17 +124,3 @@ buckets:
           sessions: {}  # No settings; uses collection_defaults
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-

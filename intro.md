@@ -1,23 +1,33 @@
 # Bluetext Documentation
 
+Always read all the files in the <project-root>/.bluetext directory. If any such files exist and you don't read them, you will fail.  
+
 ## Intro
 
 Bluetext provides documenation for how to build software systems on Polytope. Bluetext consists of two concepts: Blueprints and Code Generation Modules.
 
+If you run any of your generated software outside of the Polytope CLI `pt`, you will fail.
+
+If a module or template consists of software that never exists unless shut down, `pt run <module/template>` will not terminate until it is shut down. So, to run `pt run <module/template>` with a never-ending module or template you will need to run this command in a separate terminal. 
+
+
 ### Blueprints
 
-Blueprints are instructions for how to add a certain type of module to Polytope. The purpose of Blueprints is to enable you to reliably and efficiently generate the infrastructure needed to provide certain types of applications, functionality and servers. 
+Blueprints are instructions for how to add and update a certain type of module to Polytope. The purpose of Blueprints is to enable you to reliably and efficiently add and update the infrastructure needed to provide certain types of applications, functionality and services.
 
 #### Available Blueprints
 
 | Blueprint ID       | Description                                              |
 |--------------------|----------------------------------------------------------|
 | python-api         | Python API server with boilerplate                       |
-| web-app            | React web application with boilerplate                   |
+| react-web-app      | React web application with boilerplate                   |
+| kong-api-gateway   | Kong API Gateway for routing and middleware              |
+| curity-identity-provider | Curity Identity Server for identity and access management |
+| postgres           | PostgreSQL database server                               |
 | redpanda           | Kafka-compatible streaming platform                      |
 | redpanda-console   | Redpanda Console                                         |
 | couchbase          | Couchbase cluster                                        |
-| init               | Data cluster initialization, data structure management and configuration management |
+| config-manager     | Bluetext Config Manager - Data cluster initialization, data structure management and configuration management |
 
 #### MCP Intro Documentation For Individual Blueprints
 
@@ -41,7 +51,7 @@ Code Geneation Modules are Polytope modules that generate code reliably and effi
 
 #### MCP Intro Documentation For Individual Code Generation Modules
 
-Before using a Code Generation Module, you must read the documentation for it and follow its instructions. 
+Before using a Code Generation Module, you must read the documentation for it and follow its instructions. If you try to use one of the Code Generation Modules without reading the documentation, you will fail.
 
 The intro documentation for each Code Generation Module is available at the MCP resource `bluetext://code-gen-modules/<module-id>`. 
 
@@ -174,6 +184,8 @@ Polytope has built-in standard modules that are available even without definitio
 | polytope/python              | Python applications                |
 | polytope/python!simple       | Python applications                |
 | polytope/node                | Node.js applications               |
+| polytope/kong!simple         | Kong API Gateway                   |
+| polytope/curity              | Curity Identity Server             |
 | polytope/postgres            | PostgreSQL databases               |
 | polytope/postgres!simple     | PostgreSQL databases               |
 | polytope/redpanda            | Kafka-compatible streaming         |
@@ -194,11 +206,11 @@ If there is a relevant workflow provided below, you should follow it and make ap
 2. If there is no relevant Blueprint, you are on your own and should not continue this workflow. If there is a blueprint, read it's documentation resource at `bluetext://blueprints/<blueprint-id>`.
 3. If the blueprint contains instructions to run a code-gen-module, fetch the documentation for it `bluetext://code-gen-modules/<module-id>`.
 4. Follow the instructions provided by the blueprint. Run scripts and modules as instructed by the blueprint, don't just tell the user to do that.
-5. Specify which blueprint the module is based on in the info section. E.g. `info: "React web application (blueprint: web-app)"`.
+5. Specify which blueprint the module is based on in the info section. E.g. `info: "React web application (blueprint: react-web-app)"`.
 6. Check if the generated code fulfills the user's requirements, or if some adjustments need to be made, e.g. some functionality may need to be implemented in the added module's code. 
 7. If the values_and_secrets.defaults.yaml script was updated, run it, don't just tell the user to do it.
 
 ### Updating a Polytope module
-1. Check if the module is based on a Blueprint by checking if the `info` attribute contains a specification of which blueprint it is based on, e.g. `info: ... (blueprint: web-app)`. 
+1. Check if the module is based on a Blueprint by checking if the `info` attribute contains a specification of which blueprint it is based on, e.g. `info: ... (blueprint: react-web-app)`.
 2. If it does not specify that it is based on a blueprint, you are on your own and should not continue this workflow. If it is based on a blueprint, read it's documentation resources at `bluetext://blueprints/<blueprint-id>`.
 3. Follow all the instructions that are relevant to updating the module.
