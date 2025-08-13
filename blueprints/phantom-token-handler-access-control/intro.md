@@ -25,7 +25,6 @@ Add the following attribute to the `postgres` module in `polytope.yml`
 
 When implementing phantom token handler access control, the Kong module requires specific environment variables and configuration updates.
 
-
 Add the following attributes to your Kong module:
 
 ```yaml
@@ -64,38 +63,19 @@ plugins:
 
 The Kong configuration file (typically `modules/kong/kong.yml`) must be updated to include the token handler service and updated API service plugins.
 
-### Token Handler Service
-
-Add the following service to your Kong configuration:
+### Add Or Update The Web App Service
 
 ```yaml
-- name: token-handler
-  url: http://curity:8443/apps/token-handler
+- name: web-app
+  url: http://web-app:3000
   routes:
-  - name: token-handler-route
+  - name: web-app-route
     paths:
-    - /apps
-  plugins:
-  - name: cors
-    config:
-      origins:
-      - http://localhost:5000
-      methods:
-      - GET
-      - POST
-      - OPTIONS
-      headers:
-      - Accept
-      - Authorization
-      - Content-Type
-      - x-curity-csrf
-      exposed_headers:
-      - Authorization
-      credentials: true
-      preflight_continue: false
+    - /
 ```
 
-### Updated API Service Plugins
+
+### Add Or Update The API Service
 
 Update your existing API service to include the following plugins:
 
@@ -141,25 +121,28 @@ Update your existing API service to include the following plugins:
         preflight_continue: false
 ```
 
-### Complete Configuration Example
-
-Here's a complete example of a Kong configuration file with phantom token handler access control:
+### Update The Curity Service
 
 ```yaml
-_format_version: '2.1'
-_transform: true
-
-services:
-- name: token-handler
-  url: http://curity:8443/apps/token-handler
+- name: curity
+  url: http://curity:8443
   routes:
-  - name: token-handler-route
+  - name: curity-route
+    strip_path: false
     paths:
+    - /oauth
+    - /authn
+    - /token
     - /apps
+    methods:
+    - GET
+    - POST
+    - OPTIONS
   plugins:
   - name: cors
     config:
       origins:
+      - http://localhost:3000
       - http://localhost:5000
       methods:
       - GET
@@ -174,46 +157,6 @@ services:
       - Authorization
       credentials: true
       preflight_continue: false
-
-- name: api
-  url: http://api:4000
-  routes:
-  - name: api-route
-    strip_path: false
-    paths:
-    - /api
-  plugins:
-    - name: oauth-proxy
-      config:
-        cookie_prefix: th-
-        cookie_key: -----BEGIN ENCRYPTED PRIVATE KEY-----\nMIH0MF8GCSqGSIb3DQEFDTBSMDEGCSqGSIb3DQEFDDAkBBC9QYX294HIS9+2QD+I\n417zAgIIADAMBggqhkiG9w0CCQUAMB0GCWCGSAFlAwQBKgQQUxjBCsV/uznFjiOA\ny0cbTwSBkLznX6LXEjyWSpWpvgc13SK9fiELuMFgCcIjuDJeIc62K+PixqODqgfY\ngsnYLuYKWBx+UY+DNn9xaganJ42c1VfY+HtZFdWagE+jB6xJ0pnp2IQAK9yixv9e\nT0EEIJQ+kRoMM16B0PimJPHd1bEyivUpNfkP7fMHEpmkbbdaO8fwke4oUkk3uciF\nVBdAwnupLA==\n-----END ENCRYPTED PRIVATE KEY-----
-        cookie_key_pass: password
-
-    - name: phantom-token
-      config:
-        introspection_endpoint: http://curity:8443/oauth/v2/oauth-introspect
-        client_id: kong-introspection 
-        client_secret: Password1
-        token_cache_seconds: 900
-        verify_ssl: false
-
-    - name: cors
-      config:
-        origins:
-        - http://localhost:5000
-        methods:
-        - GET
-        - POST
-        - OPTIONS
-        headers:
-        - Accept
-        - Authorization
-        - Content-Type
-        - x-curity-csrf
-        exposed_headers:
-        - Authorization
-        credentials: true
-        preflight_continue: false
 ```
 
 ## Security Notes
